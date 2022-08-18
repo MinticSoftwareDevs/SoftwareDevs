@@ -2,5 +2,3 @@
 2. Archivo modificado por Sixto Alberto Orobio
 3. Modificacion rama development.
 4. Archivo modificado por Aldair Anaya
-
-4. Prueba commit sin github desktop Aldair Anaya
