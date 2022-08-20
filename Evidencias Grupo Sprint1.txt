@@ -4,3 +4,4 @@
 4. Archivo modificado por Aldair Anaya
 5. Archivo modificado por Erika González
 6. Archivo modificado por Luis Alejandro Acosta
+7. Cambio 19/08/2022 Pull request rama development.
