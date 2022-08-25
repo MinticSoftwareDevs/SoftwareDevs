@@ -7,11 +7,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="proyecto" />
+        <module name="controlVersiones" />
+        <module name="SoftwareDevs" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="wrapper" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SoftwareDevs" options="-parameters" />
+      <module name="controlVersiones" options="-parameters" />
       <module name="proyecto" options="-parameters" />
     </option>
   </component>

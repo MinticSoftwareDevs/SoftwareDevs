@@ -1,6 +1,8 @@
 package com.softwaredevs.proyecto;
 
+import com.softwaredevs.proyecto.entities.Employee;
 import com.softwaredevs.proyecto.entities.Enterprise;
+import com.softwaredevs.proyecto.entities.Enum_RoleName;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -26,6 +28,18 @@ public class ProyectoApplication {
 		System.out.println("Direccion empresa 1: "+ empresa1.getAddress());
 		System.out.println("Telefono empresa 1: "+ empresa1.getPhone());
 		System.out.println("Creacion empresa 1: "+ empresa1.getCreateAt());
+
+		//--------- PRUEBA Employee----------//
+
+		Employee empleado1 = new Employee("Aldair","Gmail", Enum_RoleName.ADMIN,empresa1);
+		System.out.println("--------- PRUEBA Employee----------");
+		System.out.println(empleado1.toString());
+		Enterprise empresa2 = new Enterprise("Ford","10023","310752","34 - 45");
+		empleado1.setEnterprise(empresa2);
+		empleado1.setRole(Enum_RoleName.OPERARIO);
+		empleado1.setName("Chris Evans");
+		System.out.println("\n -------Modificacion-----");
+		System.out.println(empleado1.toString());
 	}
 
 }

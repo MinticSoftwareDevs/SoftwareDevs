@@ -63,4 +63,16 @@ public class Enterprise {
     public LocalDate getUpdateAt() {
         return updateAt;
     }
+
+    // -----TO STRING----//
+
+    @Override
+    public String toString() {
+        return "Enterprise: " +
+                "\n name='" + name + '\'' +
+                "\n document='" + document + '\'' +
+                "\n phone='" + phone + '\'' +
+                "\n address='" + address + '\'' +
+                "\n createAt=" + createAt;
+    }
 }
