@@ -3,8 +3,7 @@ package com.softwaredevs.proyecto;
 import com.softwaredevs.proyecto.entities.Employee;
 import com.softwaredevs.proyecto.entities.Enterprise;
 import com.softwaredevs.proyecto.entities.Enum_RoleName;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.softwaredevs.proyecto.entities.Transaction;
 
 //@SpringBootApplication
 public class ProyectoApplication {
@@ -40,6 +39,18 @@ public class ProyectoApplication {
 		empleado1.setName("Chris Evans");
 		System.out.println("\n -------Modificacion-----");
 		System.out.println(empleado1.toString());
+
+        //TRANSACTION
+
+        Transaction transaccion = new Transaction ("Pago",500.0f,empleado1);
+
+        System.out.println("<-------Transaction--------->");
+        System.out.println(transaccion.toString());
+
+
+
 	}
+
+
 
 }
