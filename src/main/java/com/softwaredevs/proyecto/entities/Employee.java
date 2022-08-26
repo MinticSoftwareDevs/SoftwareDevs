@@ -2,16 +2,19 @@ package com.softwaredevs.proyecto.entities;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class Employee {
     private long id;
     private String name;
     private String email;
     // TODO private Profile profile;
+    private Profile profile;
     private Enum_RoleName role;
     private Enterprise enterprise;
 
     // TODO LISTA TRANSACION
+    private List<Transaction> transactions;
 
     private LocalDate updateAt;
     private LocalDate createdAt;

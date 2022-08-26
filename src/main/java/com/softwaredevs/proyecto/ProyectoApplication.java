@@ -12,21 +12,13 @@ public class ProyectoApplication {
 		//SpringApplication.run(ProyectoApplication.class, args);
 		Enterprise empresa1 = new Enterprise("Alqueria","8300769803-2","3176253465","calle 45 #20-30");
 		System.out.println("<-------Creacion empresa 1--------->");
-		System.out.println("Nombre empresa 1: "+ empresa1.getName());
-		System.out.println("NIT empresa 1: "+ empresa1.getDocument());
-		System.out.println("Direccion empresa 1: "+ empresa1.getAddress());
-		System.out.println("Telefono empresa 1: "+ empresa1.getPhone());
-		System.out.println("Creacion empresa 1: "+ empresa1.getCreateAt());
+		System.out.println(empresa1.toString());
 		empresa1.setName("Algarra");
 		empresa1.setDocument("93078494-2");
 		empresa1.setAddress("Carrera 20 #30-20");
 		empresa1.setPhone("6015203024");
 		System.out.println("<-------Modificacion empresa 1--------->");
-		System.out.println("Nombre empresa 1: "+ empresa1.getName());
-		System.out.println("NIT empresa 1: "+ empresa1.getDocument());
-		System.out.println("Direccion empresa 1: "+ empresa1.getAddress());
-		System.out.println("Telefono empresa 1: "+ empresa1.getPhone());
-		System.out.println("Creacion empresa 1: "+ empresa1.getCreateAt());
+		System.out.println(empresa1.toString());
 
 		//--------- PRUEBA Employee----------//
 
@@ -34,19 +26,23 @@ public class ProyectoApplication {
 		System.out.println("--------- PRUEBA Employee----------");
 		System.out.println(empleado1.toString());
 		Enterprise empresa2 = new Enterprise("Ford","10023","310752","34 - 45");
+		empleado1.setName("Chris Evans");
+		empleado1.setEmail("Hotmail");
 		empleado1.setEnterprise(empresa2);
 		empleado1.setRole(Enum_RoleName.OPERARIO);
-		empleado1.setName("Chris Evans");
 		System.out.println("\n -------Modificacion-----");
 		System.out.println(empleado1.toString());
 
         //TRANSACTION
 
-        Transaction transaccion = new Transaction ("Pago",500.0f,empleado1);
+        Transaction transaccion = new Transaction ("Abono cuenta",2500.0f,empleado1);
 
         System.out.println("<-------Transaction--------->");
         System.out.println(transaccion.toString());
-
+		transaccion.setAmount(-2000.0f);
+		transaccion.setConcept("Pago intereses");
+		System.out.println("<-------Modificacion--------->");
+		System.out.println(transaccion.toString());
 
 
 	}

@@ -1,6 +1,7 @@
 package com.softwaredevs.proyecto.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Enterprise {
     private long id;
@@ -9,6 +10,8 @@ public class Enterprise {
     private String phone;
     private String address;
     //TODO Crear ArrayList de Employees y Transaction
+    private List<Employee> employees;
+    private List<Transaction> transactions;
     private LocalDate createAt;
     private LocalDate updateAt;
 
