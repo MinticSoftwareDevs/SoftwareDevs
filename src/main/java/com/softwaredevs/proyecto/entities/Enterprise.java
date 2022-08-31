@@ -15,12 +15,21 @@ public class Enterprise {
     private LocalDate createAt;
     private LocalDate updateAt;
 
-    public Enterprise(String name, String document, String phone, String address) {
+    public Enterprise(long id, String name, String document, String phone, String address) {
+        this.id =id;
         this.name = name;
         this.document = document;
         this.phone = phone;
         this.address = address;
         this.createAt=LocalDate.now();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -29,7 +38,6 @@ public class Enterprise {
 
     public void setName(String name) {
         this.name = name;
-        this.updateAt=LocalDate.now();
     }
 
     public String getDocument() {
@@ -38,7 +46,6 @@ public class Enterprise {
 
     public void setDocument(String document) {
         this.document = document;
-        this.updateAt=LocalDate.now();
     }
 
     public String getPhone() {
@@ -47,7 +54,6 @@ public class Enterprise {
 
     public void setPhone(String phone) {
         this.phone = phone;
-        this.updateAt=LocalDate.now();
     }
 
     public String getAddress() {
@@ -56,7 +62,10 @@ public class Enterprise {
 
     public void setAddress(String address) {
         this.address = address;
-        this.updateAt=LocalDate.now();
+    }
+
+    public void setUpdateAt(LocalDate updateAt) {
+        this.updateAt = updateAt;
     }
 
     public LocalDate getCreateAt() {
