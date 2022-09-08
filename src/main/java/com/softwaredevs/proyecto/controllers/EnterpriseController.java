@@ -9,33 +9,27 @@ import java.util.List;
 @RestController
 public class EnterpriseController {
     EnterpriseService enterpriseService;
-
-    public EnterpriseController(EnterpriseService enterpriseService) {
-        this.enterpriseService = enterpriseService;
+    public EnterpriseController(EnterpriseService enterpriseService){
+        this.enterpriseService=enterpriseService;
     }
-
     @GetMapping("/enterprises")
-    public List<Enterprise> getEnterprises() {
+    public List<Enterprise>getEnterprises(){
         return this.enterpriseService.getEnterpriseList();
     }
-
     @GetMapping("/enterprises/{id}")
-    public Enterprise getEnterprise(@PathVariable("id") Long id) {
+    public Enterprise getEnterprise(@PathVariable("id") Long id){
         return this.enterpriseService.getEnterpriseId(id);
     }
-
     @PostMapping("/enterprises")
-    public Enterprise createEnterprise(@RequestBody Enterprise enterprise) {
+    public Enterprise createEnterprise(@RequestBody Enterprise enterprise){
         return this.enterpriseService.createEnterprise(enterprise);
     }
-
     @DeleteMapping("/enterprises/{id}")
-    public List<Enterprise> removeEnterprise(@PathVariable("id") Long id) {
+    public Boolean removeEnterprise(@PathVariable("id") Long id){
         return this.enterpriseService.removeEnterprise(id);
     }
-
     @PatchMapping("/enterprises/{id}")
-    public Enterprise modifyEnterprise(@PathVariable("id") Long id, @RequestBody Enterprise enterprise) {
-        return this.enterpriseService.modifyEnterprise(id, enterprise);
+    public String modifyEnterprise(@PathVariable("id") Long id, @RequestBody Enterprise enterprise){
+        return this.enterpriseService.modifyEnterprise(id,enterprise);
     }
 }

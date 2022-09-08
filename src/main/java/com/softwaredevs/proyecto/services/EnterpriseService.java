@@ -1,40 +1,51 @@
 package com.softwaredevs.proyecto.services;
 
 import com.softwaredevs.proyecto.entities.Enterprise;
+import com.softwaredevs.proyecto.repositories.EnterpriseRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EnterpriseService {
-    private Enterprise enterprise;
-    private List<Enterprise> listEnterprise = new ArrayList<>();
+    private EnterpriseRepository enterpriseRepository;
+    public EnterpriseService(EnterpriseRepository enterpriseRepository){
+        this.enterpriseRepository=enterpriseRepository;
+    }
     public Enterprise createEnterprise(Enterprise enterprise){
-        this.enterprise=enterprise;
-        this.listEnterprise.add(enterprise);
-        return this.enterprise;
+        enterprise.setCreateAt(LocalDate.now());
+        return this.enterpriseRepository.save(enterprise);
     }
     public Enterprise getEnterpriseId(long id){
-        return this.listEnterprise.stream().filter(e->e.getId()==id).findAny().orElse(null);
+        Optional<Enterprise> enterprise= this.enterpriseRepository.findById(id);
+        return enterprise.orElse(null);
     }
     public List<Enterprise> getEnterpriseList(){
-        return this.listEnterprise;
+        return this.enterpriseRepository.findAll();
     }
-    public List<Enterprise> removeEnterprise(long id){
-        this.listEnterprise.removeIf(e -> e.getId()==id);
-        return this.listEnterprise;
-    }
-    public Enterprise modifyEnterprise(long id, Enterprise enterprise){
-        Enterprise enterprise1 = this.listEnterprise.stream().filter(e->e.getId()==id).findAny().orElse(null);
-        if(enterprise1!=null){
-            this.listEnterprise.remove(enterprise1);
-            enterprise.setUpdateAt(LocalDate.now());
-            this.listEnterprise.add(enterprise);
-            return enterprise;
+    public Boolean removeEnterprise(long id){
+        try{
+            this.enterpriseRepository.deleteById(id);
+            return true;
+        }catch (Exception ex){
+            return false;
         }
-        return null;
+    }
+    public String modifyEnterprise(long id, Enterprise enterprise){
+        Optional<Enterprise> dbData=this.enterpriseRepository.findById(id);
+        if(dbData.isPresent()){
+            Enterprise e = dbData.get();
+            e=enterprise;
+            e.setId(dbData.get().getId());
+            e.setCreateAt(dbData.get().getCreateAt());
+            e.setUpdateAt(LocalDate.now());
+            this.enterpriseRepository.save(e);
+            return "Empresa modificada con éxito.";
+        }
+        return "No se pudo modificar la empresa";
     }
 }
