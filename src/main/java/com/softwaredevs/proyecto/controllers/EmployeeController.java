@@ -2,6 +2,7 @@ package com.softwaredevs.proyecto.controllers;
 
 import com.softwaredevs.proyecto.entities.Employee;
 import com.softwaredevs.proyecto.entities.Enterprise;
+import com.softwaredevs.proyecto.services.EmployeeService;
 import com.softwaredevs.proyecto.services.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration;
@@ -36,13 +37,13 @@ public class EmployeeController {
         return this.employeeService.createEmployee(employee);
     }
 
-    @DeleteMapping("/employee/{id}")
-    public List<Employee> removeEmployee(@PathVariable("id") Long id) {
-        return this.employeeService.removeEmployee(id);
+   @DeleteMapping("/employee/{id}")
+    public boolean /*List<Employee>*/ removeEmployee(@PathVariable("id") Long id) {
+       return this.employeeService.removeEmployee(id);
     }
 
     @PatchMapping("/employee/{id}")
-    public Employee modifyEmployee(@PathVariable("id") Long id, @RequestBody Employee employee) {
-        return this.employeeService.modifyEmployee(id, employee);
+    public String /*Employee*/ modifyEmployee(@PathVariable("id") Long id, @RequestBody Employee employee) {
+      return this.employeeService.modifyEmployee(id, employee);
     }
 }

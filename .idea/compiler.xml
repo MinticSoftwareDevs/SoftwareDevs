@@ -12,6 +12,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="SoftwareDevs" target="16" />
       <module name="wrapper" target="1.5" />
     </bytecodeTargetLevel>
   </component>
