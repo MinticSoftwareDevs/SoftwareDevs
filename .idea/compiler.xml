@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="proyecto" />
         <module name="controlVersiones" />
+        <module name="SoftwareDevs" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

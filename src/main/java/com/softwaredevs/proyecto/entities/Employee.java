@@ -1,23 +1,36 @@
 package com.softwaredevs.proyecto.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
+@Entity
+@Table(name = "Employees")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private String name;
     private String email;
-    // TODO private Profile profile;
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "employee")
     private Profile profile;
+    @Enumerated(EnumType.STRING)
     private Enum_RoleName role;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Enterprise.class)
+    @JoinColumn(name = "id_enterprise")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Enterprise enterprise;
-
-    // TODO LISTA TRANSACION
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
     private List<Transaction> transactions;
-
     private LocalDate updateAt;
     private LocalDate createdAt;
+
+    public Employee() {
+    }
 
     public Employee(String name, String email, Enum_RoleName role, Enterprise enterprise) {
         this.name = name;
