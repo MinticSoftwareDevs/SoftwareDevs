@@ -1,29 +1,57 @@
 package com.softwaredevs.proyecto.entities;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
 public class Transaction {
-
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    @Column(name = "concept")
     private String concept;
+    @Column(name = "amount")
     private float amount;
 
-    private Employee employeer;
 
+    @ManyToOne(fetch = FetchType.LAZY,targetEntity = Employee.class)
+    @JoinColumn(name = "employee_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY,targetEntity = Enterprise.class)
+    @JoinColumn(name = "enterprise_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Enterprise enterprise;
+
+    @Column(name = "createAt")
     private LocalDate createAt;
+    @Column(name = "updateAt")
     private LocalDate updateAt;
 
-
-
-    //Constructor
-    public Transaction(String concept, float amount, Employee employeer) {
-        this.concept = concept;
-        this.amount = amount;
-        this.employeer = employeer;
+    public Transaction() {
     }
 
-    //Getter and Setter
+    public Transaction(String concept, float amount, Employee employee, Enterprise enterprise) {
+        this.concept = concept;
+        this.amount = amount;
+        this.employee = employee;
+        this.enterprise = enterprise;
+        this.createAt=LocalDate.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getConcept() {
         return concept;
     }
@@ -38,6 +66,22 @@ public class Transaction {
 
     public void setAmount(float amount) {
         this.amount = amount;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
     }
 
     public LocalDate getCreateAt() {
@@ -56,17 +100,17 @@ public class Transaction {
         this.updateAt = updateAt;
     }
 
-    //Mostrar datos ó ToString
-
     @Override
     public String toString() {
         return "Transaction{" +
-                "concept='" + concept + '\'' +
+                "id=" + id +
+                ", concept='" + concept + '\'' +
                 ", amount=" + amount +
-                ", employeer=" + employeer +
+                ", employee=" + employee +
                 ", enterprise=" + enterprise +
                 ", createAt=" + createAt +
                 ", updateAt=" + updateAt +
                 '}';
     }
 }
+
