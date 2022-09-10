@@ -16,10 +16,10 @@ public class TransactionController {
 
 
     @PostMapping("/enterprises/{id}/movements")
-    private void crearTransaction(@RequestBody Transaction transaction){
-        transactionService.createTransaction(transaction);
+    private String crearTransaction(@RequestBody Transaction transaction){
+       return  this.transactionService.createTransaction(transaction);
     }
-    @GetMapping("/enterprises/{id}/movements")
+    @GetMapping("/enterprises/id/movements")
     public List<Transaction> getTransactions(){
         return this.transactionService.getTransactionList();
     }
@@ -28,8 +28,8 @@ public class TransactionController {
         return this.transactionService.getTransactionId(id);
     }
     @DeleteMapping("/enterprises/{id}/movements")
-    private void deleteTransaction(@PathVariable("id") long id){
-        transactionService.deleteTransaction(id);
+    private Boolean deleteTransaction(@PathVariable("id") long id){
+        return this.transactionService.deleteTransaction(id);
     }
     @PatchMapping("/enterprises/{id}/movements")
     public String modifyTransaction(@PathVariable("id") Long id, @RequestBody Transaction transaction) {

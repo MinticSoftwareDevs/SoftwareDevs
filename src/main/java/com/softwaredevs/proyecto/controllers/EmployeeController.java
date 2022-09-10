@@ -22,27 +22,27 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/employee")
+    @GetMapping("/users")
     public List<Employee> getEmployee() {
         return this.employeeService.getEmployeeList();
     }
 
-    @GetMapping("/employee/{id}")
+    @GetMapping("/user/{id}")
     public Employee getEmployee(@PathVariable("id") Long id) {
         return this.employeeService.getEmployeeId(id);
     }
 
-    @PostMapping("/employee")
+    @PostMapping("/users")
     public Employee createEmployee(@RequestBody Employee employee) {
         return this.employeeService.createEmployee(employee);
     }
 
-   @DeleteMapping("/employee/{id}")
+   @DeleteMapping("/user/{id}")
     public boolean /*List<Employee>*/ removeEmployee(@PathVariable("id") Long id) {
        return this.employeeService.removeEmployee(id);
     }
 
-    @PatchMapping("/employee/{id}")
+    @PatchMapping("/user/{id}")
     public String /*Employee*/ modifyEmployee(@PathVariable("id") Long id, @RequestBody Employee employee) {
       return this.employeeService.modifyEmployee(id, employee);
     }

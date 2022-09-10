@@ -65,7 +65,7 @@ public class EmployeeService {
     public String modifyEmployee(long id, Employee employee){
         Optional<Employee> dbEmployee = this.employeeRepository.findById(id);
         Optional<Enterprise>dbEnterprise = this.enterpriseRepository.findById(employee.getEnterprise().getId());
-        if(!dbEmployee.isPresent() && !dbEnterprise.isPresent()){
+        if(dbEmployee.isPresent() && dbEnterprise.isPresent()){
             //Employee e = dbEmployee.get();
             Employee e = employee;
             e.setUpdateAt(LocalDate.now());
