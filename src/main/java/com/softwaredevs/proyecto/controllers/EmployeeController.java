@@ -6,25 +6,24 @@ import com.softwaredevs.proyecto.services.EmployeeService;
 import com.softwaredevs.proyecto.services.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class EmployeeController {
     // ATRIBUTOS
-
+    @Autowired
     EmployeeService employeeService;
 
-
-    @Autowired
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
-    @GetMapping("/users")
-    public List<Employee> getEmployee() {
-        return this.employeeService.getEmployeeList();
+    // Controlador para mostrar todos los empleados
+    @GetMapping("/employees")
+    public String getEmployees(Model model) {
+        List<Employee> listEmployees = this.employeeService.getEmployeeList();
+        model.addAttribute("listEmployees",listEmployees);
+        return "employee/list-employee";
     }
 
     @GetMapping("/user/{id}")
