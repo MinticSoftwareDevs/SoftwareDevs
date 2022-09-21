@@ -32,12 +32,13 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String email, Enum_RoleName role, Enterprise enterprise) {
+    public Employee(String name, String email, Enum_RoleName role, Enterprise enterprise, Profile profile) {
         this.name = name;
         this.email = email;
         this.role = role;
         this.enterprise = enterprise;
         this.createdAt = LocalDate.now();
+        this.profile = profile;
     }
 
     public long getId() {
@@ -94,6 +95,14 @@ public class Employee {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     @Override
