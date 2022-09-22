@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -76,6 +77,17 @@ public class EmployeeService {
             return "Empleado modificado con éxito.";
         }else{
             return "No se pudo modificar el empleado, por favor, intente con un id de empresa o empleado válido.";
+        }
+    }
+    public Employee getEmployee(Map<String,Object> userData){
+        String email= (String) userData.get("email");
+        Employee employee= this.employeeRepository.findByEmail(email);
+        if(employee!=null){
+            //TODO actualizar foto perfil
+            String image = (String) userData.get("picture");
+            return employee;
+        }else{
+            return null;
         }
     }
 }
