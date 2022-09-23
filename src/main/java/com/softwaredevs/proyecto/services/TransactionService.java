@@ -43,8 +43,7 @@ public class TransactionService {
 
 
     //Encontrar todos los movimientos de dinero
-    public List<Transaction> getTransactionList(){
-        return this.transactionRepository.findAll();
+    public List<Transaction> getTransactionList(){ return this.transactionRepository.findAll();
     }
     //Encontrar movimientos de dinero por ID
     public Transaction getTransactionId(long id) {

@@ -1,38 +1,63 @@
 package com.softwaredevs.proyecto.controllers;
 
+import com.softwaredevs.proyecto.entities.Employee;
 import com.softwaredevs.proyecto.entities.Enterprise;
 import com.softwaredevs.proyecto.entities.Transaction;
 import com.softwaredevs.proyecto.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.persistence.PostUpdate;
 import java.util.List;
 
-@RestController
+@Controller
 public class TransactionController {
 
     @Autowired
     TransactionService transactionService;
 
 
-    @PostMapping("/enterprises/{id}/movements")
-    private String crearTransaction(@RequestBody Transaction transaction){
-       return  this.transactionService.createTransaction(transaction);
+    @GetMapping("/transactions")
+    public String getTransactions(Model model) {
+        model.addAttribute("transacciones", transactionService.getTransactionList());
+        return "transactions";
     }
-    @GetMapping("/enterprises/id/movements")
-    public List<Transaction> getTransactions(){
-        return this.transactionService.getTransactionList();
+
+
+    @GetMapping("/transactions/add")
+    public String addTransaction(Model model) {
+        model.addAttribute("transaccion", new Transaction());
+        return "new-transaction";
     }
-    @GetMapping("/enterprises/{id}/movements")
-    public Transaction getTransaction(@PathVariable("id") Long id){
-        return this.transactionService.getTransactionId(id);
+
+    @GetMapping("/transactions/{id}/movements")
+    public String getTransaction(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("transaccion", this.transactionService.getTransactionId(id));
+        return "edit-transaction";
     }
-    @DeleteMapping("/enterprises/{id}/movements")
-    private Boolean deleteTransaction(@PathVariable("id") long id){
-        return this.transactionService.deleteTransaction(id);
+
+    @PostMapping("/transactions/{id}/movements")
+    public RedirectView createTransaction(@ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Transaction transaction, Model model) {
+        model.addAttribute(transaction);
+        this.transactionService.createTransaction(transaction);
+        return new RedirectView("/transactions");
     }
-    @PatchMapping("/enterprises/{id}/movements")
-    public String modifyTransaction(@PathVariable("id") Long id, @RequestBody Transaction transaction) {
-        return this.transactionService.modifyTransaction(id, transaction);
+
+    @DeleteMapping("/transactions/{id}/movements")
+    public RedirectView removeTransaction(@PathVariable("id") Long id) {
+        this.transactionService.deleteTransaction(id);
+        return new RedirectView("/transactions");
+    }
+
+    @PatchMapping("/transactions/{id}/movements")
+    public RedirectView modifyTransaction(@PathVariable("id") Long id, @ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Transaction transaction) {
+        this.transactionService.modifyTransaction(id, transaction);
+        return new RedirectView("/transactions");
     }
 }
