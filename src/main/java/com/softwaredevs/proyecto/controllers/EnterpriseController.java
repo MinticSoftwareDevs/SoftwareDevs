@@ -28,33 +28,63 @@ public class EnterpriseController {
         }else{
             model.addAttribute("user",null);
         }
-        return "enterprises";
+        return "enterprise/enterprises";
     }
     @GetMapping("/enterprises/add")
-    public String addEnterprise(Model model){
+    public String addEnterprise(Model model, @AuthenticationPrincipal OidcUser principal){
         model.addAttribute("empresa",new Enterprise());
-        return "new-enterprise";
+        if(principal!=null){
+            Employee employee=this.employeeService.getEmployee(principal.getClaims());
+            model.addAttribute("user",employee);
+        }else{
+            model.addAttribute("user",null);
+        }
+        return "enterprise/new-enterprise";
     }
     @GetMapping("/enterprises/{id}")
-    public String getEnterprise(@PathVariable("id") Long id, Model model){
+    public String getEnterprise(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal OidcUser principal){
         model.addAttribute("empresa",this.enterpriseService.getEnterpriseId(id));
-        return "edit-enterprise";
+        if(principal!=null){
+            Employee employee=this.employeeService.getEmployee(principal.getClaims());
+            model.addAttribute("user",employee);
+        }else{
+            model.addAttribute("user",null);
+        }
+        return "enterprise/edit-enterprise";
     }
     @PostMapping("/enterprises")
-    public RedirectView createEnterprise(@ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Enterprise enterprise, Model model){
+    public RedirectView createEnterprise(@ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Enterprise enterprise, Model model, @AuthenticationPrincipal OidcUser principal){
         model.addAttribute(enterprise);
         this.enterpriseService.createEnterprise(enterprise);
-        return new RedirectView("/enterprises");
+        if(principal!=null){
+            Employee employee=this.employeeService.getEmployee(principal.getClaims());
+            model.addAttribute("user",employee);
+        }else{
+            model.addAttribute("user",null);
+        }
+        return new RedirectView("enterprise/enterprises");
     }
     @DeleteMapping("/enterprises/{id}")
-    public RedirectView removeEnterprise(@PathVariable("id") Long id){
+    public RedirectView removeEnterprise(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal OidcUser principal){
         this.enterpriseService.removeEnterprise(id);
-        return new RedirectView("/enterprises");
+        if(principal!=null){
+            Employee employee=this.employeeService.getEmployee(principal.getClaims());
+            model.addAttribute("user",employee);
+        }else{
+            model.addAttribute("user",null);
+        }
+        return new RedirectView("enterprise/enterprises");
     }
     @PatchMapping("/enterprises/{id}")
-    public RedirectView modifyEnterprise(@PathVariable("id") Long id, @ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Enterprise enterprise){
+    public RedirectView modifyEnterprise(@PathVariable("id") Long id, @ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Enterprise enterprise, Model model, @AuthenticationPrincipal OidcUser principal){
         //model.addAttribute(enterprise);
         this.enterpriseService.modifyEnterprise(id,enterprise);
-        return new RedirectView("/enterprises");
+        if(principal!=null){
+            Employee employee=this.employeeService.getEmployee(principal.getClaims());
+            model.addAttribute("user",employee);
+        }else{
+            model.addAttribute("user",null);
+        }
+        return new RedirectView("enterprise/enterprises");
     }
 }

@@ -2,12 +2,22 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="~{layout/layout}">
 <head th:replace="layout/layout :: head">
 
 </head>
 <body>
 <div class="container-fluid" layout:fragment="page-content">
+  <div sec:authorize="!isAuthenticated()" >
+    <a class="btn btn-success mb-2" th:href="@{/}">Debe ingresar primero</a>
+  </div>
+  <div sec:authorize="isAuthenticated()">
+    <div th:if="${user==null}">
+      <a class="btn btn-success mb-2" th:href="@{/}">Usuario no registrado</a>
+    </div>
+    <div th:if="${user!=null}">
+    <div th:if="${#strings.toString(user.getRole())}=='ADMIN'">
   <div class="col-12">
     <h2>Editar Empresa</h2>
     <form th:object="${empresa}" th:action="@{/enterprises/}+ ${empresa.id}" th:method="patch" class="d-flex flex-column gap-3">
@@ -45,6 +55,11 @@
       </div>
       <button class="btn btn-success" type="submit">Editar</button>
     </form>
+  </div>
+    </div>
+    <div th:if="${#strings.toString(user.getRole())}!='ADMIN'">Bloqueado
+    </div>
+    </div>
   </div>
 </div>
 <!--OTRO SCRIPTS PARA PAGINAS-->

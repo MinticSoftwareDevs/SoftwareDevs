@@ -11,7 +11,7 @@
 <body>
 <main>
   <div class="pax-4 py-5 my-5 text-center">
-    <img src="images/tasks.png" class="d-block mx-auto mb-4" height="100px" alt="Tareas"/>
+    <img src="images/corporation.png" class="d-block mx-auto mb-4" height="100px" alt="Empresas"/>
     <h1 class="display-5 fw-bold">Sistema de administración de empresas</h1>
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4">Organización empresas, usuarios y movimientos de dinero</p>
@@ -20,14 +20,14 @@
       </div>
       <div sec:authorize="isAuthenticated()">
         <div th:if="${user==null}">
-          <p class="lead mb-4">Por favor, debe enviar su correo electronico a un usuario administrador</p>
+          <p class="lead mb-4">Por favor, debe enviar su correo electrónico a un usuario administrador</p>
         </div>
         <div th:if="${user!=null}">
           <h3 th:text=" 'Bienvenido, '+ ${user.getEmail()}"></h3>
-          <a th:href="@{/home}" type="button" class="btn btn-primary btn-lg px-4 gap-3">Ir a la aplicación </a>
+          <a th:href="@{/home}" type="button" class="btn btn-primary btn-lg px-4 gap-3 my-2">Ir a la aplicación </a>
         </div>
+        <a th:href="@{/logout}" type="button" class="btn btn-danger btn-lg px-4 gap-3 my-2">Cerrar sesión </a>
       </div>
-      <button type="button" class="btn btn-outline-secondary btn-lg px-4">Saber más</button>
     </div>
   </div>
 </main>
