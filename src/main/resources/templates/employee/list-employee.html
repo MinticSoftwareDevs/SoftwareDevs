@@ -22,6 +22,7 @@
     </div>
 
     <div sec:authorize="isAuthenticated()">
+
         <div th:if="${user==null}">
             <a class="btn btn-success mb-2" th:href="@{/}">Usuario no registrado</a>
         </div>
@@ -32,7 +33,7 @@
                  th:text="${mensaje}"
                  class="alert">
             </div >
-            <div th:if="${#strings.toString(user.getRole())}=='OPERARIO'">
+            <div th:if="${#strings.toString(user.getRole())}=='ADMIN'">
                 <a class="btn btn-success mb-2" th:href="@{/employees/add}">Agregar</a>
             </div>
 

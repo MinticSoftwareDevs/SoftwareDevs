@@ -6,6 +6,8 @@ import com.softwaredevs.proyecto.entities.Profile;
 import com.softwaredevs.proyecto.entities.Transaction;
 import com.softwaredevs.proyecto.services.EmployeeService;
 import com.softwaredevs.proyecto.services.EnterpriseService;
+import com.softwaredevs.proyecto.services.ProfileService;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,6 +29,8 @@ EmployeeController {
 
     @Autowired
     EnterpriseService enterpriseService;
+    @Autowired
+    ProfileService profileService;
 
     // Controlador para mostrar todos los empleados
     @GetMapping("/employees")
@@ -65,24 +69,22 @@ EmployeeController {
     }
 
 
-    // Gardar un nuevo empleado, este es el que conecta cuando hundimos el boton guardar
-    /*@PostMapping("/users")
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return this.employeeService.createEmployee(employee);
-    }*/
-    /*@PostMapping("/employee")
-    private RedirectView createEmployee(@ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Employee employee){
-        EmployeeService.createEmployee(employee);
-        return new RedirectView("/employee");
+    //Gardar un nuevo empleado, este es el que conecta cuando hundimos el boton guardar
+    @PostMapping("/employee")
+    private RedirectView createEmployee(@ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Employee employee, @ModelAttribute("profileModel") Profile profile, @ModelAttribute("enterpriseModel") Enterprise enterprise){
+        employeeService.createEmployee(employee);
+        profile.setEmployee(employee);
+        profileService.crearProfile(profile);
+        return new RedirectView("/employees");
 
-    }*/
+    }
 
 
     // metodo para eliminar
     @DeleteMapping("/employee/{id}")
     public RedirectView removeEmployee(@PathVariable("id") Long id) {
         this.employeeService.removeEmployee(id);
-        return new RedirectView("employee/list-employee");
+        return new RedirectView("/employees");
     }
 
     // metodo para llamar al formulario de editar de empleado
