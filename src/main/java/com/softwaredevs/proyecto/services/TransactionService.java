@@ -80,6 +80,16 @@ public class TransactionService {
             return "Transacción modificada con éxito.";
         }
         return "No se pudo modificar la Transacción";
+    }
 
+    public float sumarTotal() {
+        List<Transaction> transactions = getTransactionList();
+        float cantidad = 0;
+        for (int i = 0; i < transactions.size(); i++) {
+            Transaction tx = transactions.get(i);
+            cantidad = cantidad + tx.getAmount();
+
+        }
+        return cantidad;
     }
 }

@@ -2,13 +2,20 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="~{layout/layout}">
 <head th:replace="layout/layout :: head">
 </head>
 <body>
-<!-- Page content Contenido dinamico-->
 <div class="container-fluid" layout:fragment="page-content">
-
+  <div sec:authorize="!isAuthenticated()" >
+    <a class="btn btn-success mb-2" th:href="@{/}">Debe ingresar primero</a>
+  </div>
+  <div sec:authorize="isAuthenticated()">
+    <div th:if="${user==null}">
+      <a class="btn btn-success mb-2" th:href="@{/}">Usuario no registrado</a>
+    </div>
+    <div th:if="${user!=null}">
   <div class="col-12">
     <h2>Transacciones</h2>
     <div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)" th:if="${mensaje != null}"
@@ -22,7 +29,7 @@
         <th>Concepto</th>
         <th>Monto</th>
         <th>Fecha</th>
-        <th>Usuario</th>
+        <th>Usuario Responsable</th>
         <th>Editar</th>
         <th>Eliminar</th>
       </tr>
@@ -33,6 +40,7 @@
         <td th:text="${transaccion.amount}"></td>
         <td th:text="${transaccion.createAt}"></td>
         <td th:text="${transaccion.employee.name}"></td>
+
         <td>
           <a class="btn btn-warning" th:href="@{/transactions/} + ${transaccion.id}">Editar <i
                   class="fa fa-edit"></i></a>
@@ -43,10 +51,16 @@
             </button>
           </form>
         </td>
+
       </tr>
       </tbody>
     </table>
+    <label>Total</label>
+    <td th:text="${total}"></td>
   </div>
+    </div>
+  </div>
+
 
 
 </div>
