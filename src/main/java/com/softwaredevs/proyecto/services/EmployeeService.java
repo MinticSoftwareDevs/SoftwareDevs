@@ -2,8 +2,10 @@ package com.softwaredevs.proyecto.services;
 
 import com.softwaredevs.proyecto.entities.Employee;
 import com.softwaredevs.proyecto.entities.Enterprise;
+import com.softwaredevs.proyecto.entities.Profile;
 import com.softwaredevs.proyecto.repositories.EmployeeRepository;
 import com.softwaredevs.proyecto.repositories.EnterpriseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,8 +18,12 @@ import java.util.Optional;
 public class EmployeeService {
 
     //Atributos
+    @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
     private EnterpriseRepository enterpriseRepository;
+    @Autowired
+    ProfileService profileService;
 
     //COnstructor
     public EmployeeService(EmployeeRepository employeeRepository, EnterpriseRepository enterpriseRepository){
@@ -63,21 +69,15 @@ public class EmployeeService {
     }
 
 
-    public String modifyEmployee(long id, Employee employee){
-        Optional<Employee> dbEmployee = this.employeeRepository.findById(id);
-        Optional<Enterprise>dbEnterprise = this.enterpriseRepository.findById(employee.getEnterprise().getId());
-        if(dbEmployee.isPresent() && dbEnterprise.isPresent()){
-            //Employee e = dbEmployee.get();
-            Employee e = employee;
-            e.setUpdateAt(LocalDate.now());
-            employee.setId(id);
-            e.setEnterprise(dbEnterprise.get());
-            e.setCreatedAt(dbEmployee.get().getCreatedAt());
-            this.employeeRepository.save(e);
-            return "Empleado modificado con éxito.";
-        }else{
-            return "No se pudo modificar el empleado, por favor, intente con un id de empresa o empleado válido.";
-        }
+    public void modifyEmployee(Long id,Employee employeeModify, Profile profileModify){
+        Optional<Employee> employeeInDB = employeeRepository.findById(id);
+        Profile profileInDB = employeeInDB.get().getProfile();
+        employeeModify.setId(employeeInDB.get().getId());
+        profileModify.setId(profileInDB.getId());
+        employeeRepository.save(employeeModify);
+        profileModify.setEmployee(employeeModify);
+        profileService.crearProfile(profileModify);
+
     }
     public Employee getEmployee(Map<String,Object> userData){
         String email= (String) userData.get("email");
