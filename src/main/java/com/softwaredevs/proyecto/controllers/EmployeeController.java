@@ -3,10 +3,12 @@ package com.softwaredevs.proyecto.controllers;
 import com.softwaredevs.proyecto.entities.Employee;
 import com.softwaredevs.proyecto.entities.Enterprise;
 import com.softwaredevs.proyecto.entities.Profile;
+import com.softwaredevs.proyecto.entities.Transaction;
 import com.softwaredevs.proyecto.services.EmployeeService;
 import com.softwaredevs.proyecto.services.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
@@ -17,10 +19,14 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.List;
 
 @Controller
-public class EmployeeController {
+public class
+EmployeeController {
     // ATRIBUTOS
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    EnterpriseService enterpriseService;
 
     // Controlador para mostrar todos los empleados
     @GetMapping("/employees")
@@ -37,16 +43,40 @@ public class EmployeeController {
         return "employee/list-employee";
     }
 
-    // Mostrar formulario para crear un nuevo empleado
-    @GetMapping("/user/{id}")
-    public Employee getEmployee(@PathVariable("id") Long id) {
-        return this.employeeService.getEmployeeId(id);
+
+
+    @GetMapping("/employees/add")
+    public String addEmployee(Model model, @AuthenticationPrincipal OidcUser principal){
+        if(principal!=null) {
+            Employee principalemployee = this.employeeService.getEmployee(principal.getClaims());
+            model.addAttribute("user", principalemployee );
+
+            Employee employee = new Employee();
+            Profile profile = new Profile();
+            List<Enterprise> enterpriseToModel =enterpriseService.getEnterpriseList();
+            model.addAttribute("employeeModel", employee);
+            model.addAttribute("profileModel", profile);
+            model.addAttribute("enterpriseModel", enterpriseToModel);
+
+            }else{
+            model.addAttribute("user",null);
+            }
+        return "employee/new-employee";
     }
+
+
     // Gardar un nuevo empleado, este es el que conecta cuando hundimos el boton guardar
-    @PostMapping("/users")
+    /*@PostMapping("/users")
     public Employee createEmployee(@RequestBody Employee employee) {
         return this.employeeService.createEmployee(employee);
-    }
+    }*/
+    /*@PostMapping("/employee")
+    private RedirectView createEmployee(@ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Employee employee){
+        EmployeeService.createEmployee(employee);
+        return new RedirectView("/employee");
+
+    }*/
+
 
     // metodo para eliminar
     @DeleteMapping("/employee/{id}")
@@ -54,7 +84,6 @@ public class EmployeeController {
         this.employeeService.removeEmployee(id);
         return new RedirectView("employee/list-employee");
     }
-
 
     // metodo para llamar al formulario de editar de empleado
     @GetMapping("/employee/{id}")

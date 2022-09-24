@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="container-fluid" layout:fragment="page-content">
+
     <div sec:authorize="!isAuthenticated()">
         <div class="container-md d-flex align-items-center justify-content-center" style="height : 40rem;">
             <div class="card shadow-sm p-3 mb-5 bg-body rounded" style="width: 20rem;">
