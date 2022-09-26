@@ -62,7 +62,7 @@ public class EnterpriseController {
         }else{
             model.addAttribute("user",null);
         }
-        return new RedirectView("enterprise/enterprises");
+        return new RedirectView("/enterprises");
     }
     @DeleteMapping("/enterprises/{id}")
     public RedirectView removeEnterprise(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal OidcUser principal){
@@ -73,7 +73,7 @@ public class EnterpriseController {
         }else{
             model.addAttribute("user",null);
         }
-        return new RedirectView("enterprise/enterprises");
+        return new RedirectView("/enterprises");
     }
     @PatchMapping("/enterprises/{id}")
     public RedirectView modifyEnterprise(@PathVariable("id") Long id, @ModelAttribute @DateTimeFormat(pattern = "YYYY-MM-DD") Enterprise enterprise, Model model, @AuthenticationPrincipal OidcUser principal){
@@ -85,6 +85,6 @@ public class EnterpriseController {
         }else{
             model.addAttribute("user",null);
         }
-        return new RedirectView("enterprise/enterprises");
+        return new RedirectView("/enterprises");
     }
 }
